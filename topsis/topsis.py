@@ -4,13 +4,16 @@ from turtle import distance
 import numpy as np
 import matplotlib.pyplot as plt
 
-# reads data.csv and creates weights array ------------
-data = np.genfromtxt('../data/cars.csv', delimiter=',')
-criteria = ['consumption', 'confort', 'cost', 'brand']
-weights = np.array([0.3, 0.05, 0.6, 0.05])
-cars = ['Palio', 'HB20', 'Corola']
-cost_benefit = ['cost', 'benefit', 'cost', 'benefit']
-# ------------------------------------------------------
+# reads data csv and deletes the labels
+data = np.genfromtxt('../data/top_ten_stocks.csv', delimiter=',')
+data = np.delete(data, 0, 1)
+data = np.delete(data, 0, 0)
+
+# sets criteria, weights and labels
+criteria = ['Stock Price', 'MarketCap', 'P/L', 'Revenue', 'EPS', 'Beta', 'Dividend']
+cost_benefit = ['cost', 'benefit', 'cost', 'benefit', 'benefit', 'cost', 'benefit']
+weights = np.array([0.05, 0.2, 0.2, 0.2, 0.2, 0.1, 0.05])
+labels = ['Apple', 'Microsoft', 'Alphabet C', 'Alphabet A', 'Amazon', 'Tesla', 'Berkshire', 'Broadcom', 'Meta', 'NVIDIA']
 
 # normalizes data matrix
 n = data ** 2
@@ -49,6 +52,7 @@ relative_proximity = distance_negative / (distance_negative + distance_positive)
 print(relative_proximity)
 
 # plots the relative proximity
-plt.bar(cars, relative_proximity)
-plt.title('BEST CARS')
+plt.figure(figsize=(15, 10))
+plt.bar(labels, relative_proximity)
+plt.title('TOP 10 MARKETCAP STOCKS')
 plt.savefig('../results/relative_proximity.png')
